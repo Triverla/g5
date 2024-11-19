@@ -33,83 +33,84 @@ $is_megamenu = 'yes';
     ?>
 
     <?php /*----- header 시작 -----*/?>
-    <div class="header">
-    <div class="logo"> <img src="<?php echo EYOOM_THEME_URL; ?>/image/logo-colored.png" alt="로고"></div>
+    <?php if (!defined('_EYOOM_')) {
+        exit;
+    }
+    ?>
+
+<div class="header">
+    <div class="logo">
+        <?php if ($logo == 'image') {?>
+            <a href="<?php echo G5_SHOP_URL; ?>"><img src="<?php echo EYOOM_THEME_URL; ?>/image/logo-colored.png" alt="로고"></a>
+        <?php } else {?>
+            <?php echo $config['cf_title']; ?>
+        <?php }?>
+    </div>
     <a href="#" class="mobile-link">P2U소개</a>
     <div class="menu">
-    <a href="#">홍길동님 11,181,887 P2U</a>
-      <a href="#">장바구니</a>
-      <a href="#">마이페이지</a>
-      <a href="#">로그아웃</a>
-      <div class="search-bar">
-        <input type="text" placeholder="상품명 검색">
-      </div>
+        <?php if ($is_member) {?>
+            <a href="#"><?php echo $member['mb_nick']; ?>님 <?php echo number_format($member['mb_point']); ?> P2U</a>
+            <a href="<?php echo G5_SHOP_URL; ?>/cart.php">장바구니</a>
+            <a href="<?php echo G5_URL; ?>/mypage/">마이페이지</a>
+            <a href="<?php echo G5_BBS_URL ?>/logout.php">로그아웃</a>
+        <?php } else {?>
+            <a href="<?php echo G5_BBS_URL ?>/login.php">로그인</a>
+            <a href="<?php echo G5_BBS_URL ?>/register.php">회원가입</a>
+        <?php }?>
+        <div class="search-bar">
+            <input type="text" placeholder="상품명 검색">
+        </div>
     </div>
-  </div>
+</div>
 
-  <div class="nav-bar">
-    <div class="nav-item">
-      <a href="#"><span><svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M1.33334 4.50001C1.33334 4.13182 1.63181 3.83334 2 3.83334H14C14.3682 3.83334 14.6667 4.13182 14.6667 4.50001C14.6667 4.8682 14.3682 5.16668 14 5.16668H2C1.63181 5.16668 1.33334 4.8682 1.33334 4.50001ZM1.33334 8.50001C1.33334 8.13182 1.63181 7.83334 2 7.83334H14C14.3682 7.83334 14.6667 8.13182 14.6667 8.50001C14.6667 8.8682 14.3682 9.16668 14 9.16668H2C1.63181 9.16668 1.33334 8.8682 1.33334 8.50001ZM1.33334 12.5C1.33334 12.1318 1.63181 11.8333 2 11.8333H14C14.3682 11.8333 14.6667 12.1318 14.6667 12.5C14.6667 12.8682 14.3682 13.1667 14 13.1667H2C1.63181 13.1667 1.33334 12.8682 1.33334 12.5Z" fill="#A445DE"/>
-</svg>
-</span> 전체상품</a>
-      <div class="dropdown">
-        <ul>
-          <li>
-            <a href="#">뷰티/피부 <span class="icon">></span></a>
-            <div class="nested-dropdown">
-              <ul>
-                <li><a href="#">스킨케어</a></li>
-                <li><a href="#">클렌징</a></li>
-                <li><a href="#">메이크업</a></li>
-                <li><a href="#">로션/미스트</a></li>
-              </ul>
+<div class="nav-bar">
+    <?php if (isset($menu) && is_array($menu)) {?>
+        <?php foreach ($menu as $key => $menu_1) {?>
+            <div class="nav-item">
+                <a href="<?php echo $menu_1['me_link']; ?>" target="_<?php echo $menu_1['me_target']; ?>">
+                    <?php if ($key === 0) {?>
+                        <span>
+                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.33334 4.50001C1.33334 4.13182 1.63181 3.83334 2 3.83334H14C14.3682 3.83334 14.6667 4.13182 14.6667 4.50001C14.6667 4.8682 14.3682 5.16668 14 5.16668H2C1.63181 5.16668 1.33334 4.8682 1.33334 4.50001ZM1.33334 8.50001C1.33334 8.13182 1.63181 7.83334 2 7.83334H14C14.3682 7.83334 14.6667 8.13182 14.6667 8.50001C14.6667 8.8682 14.3682 9.16668 14 9.16668H2C1.63181 9.16668 1.33334 8.8682 1.33334 8.50001ZM1.33334 12.5C1.33334 12.1318 1.63181 11.8333 2 11.8333H14C14.3682 11.8333 14.6667 12.1318 14.6667 12.5C14.6667 12.8682 14.3682 13.1667 14 13.1667H2C1.63181 13.1667 1.33334 12.8682 1.33334 12.5Z" fill="#A445DE"/>
+                            </svg>
+                        </span>
+                    <?php }?>
+                    <?php echo $menu_1['me_name']; ?>
+                </a>
+                <?php if (isset($menu_1['submenu']) && is_array($menu_1['submenu'])) {?>
+                    <div class="dropdown">
+                        <ul>
+                            <?php foreach ($menu_1['submenu'] as $menu_2) {?>
+                                <li>
+                                    <a href="<?php echo $menu_2['me_link']; ?>" target="_<?php echo $menu_2['me_target']; ?>">
+                                        <?php echo $menu_2['me_name']; ?>
+                                        <?php if (isset($menu_2['subsub'])) {?>
+                                            <span class="icon">></span>
+                                        <?php }?>
+                                    </a>
+                                    <?php if (isset($menu_2['subsub']) && is_array($menu_2['subsub'])) {?>
+                                        <div class="nested-dropdown">
+                                            <ul>
+                                                <?php foreach ($menu_2['subsub'] as $menu_3) {?>
+                                                    <li>
+                                                        <a href="<?php echo $menu_3['me_link']; ?>" target="_<?php echo $menu_3['me_target']; ?>">
+                                                            <?php echo $menu_3['me_name']; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php }?>
+                                            </ul>
+                                        </div>
+                                    <?php }?>
+                                </li>
+                            <?php }?>
+                        </ul>
+                    </div>
+                <?php }?>
             </div>
-          </li>
-          <li><a href="#">신선푸드 <span class="icon">></span></a></li>
-          <li><a href="#">가공푸드 <span class="icon">></span></a></li>
-          <li>
-            <a href="#">패션잡화 <span class="icon">></span></a>
-            <div class="nested-dropdown">
-              <ul>
-                <li><a href="#">가방</a></li>
-                <li><a href="#">신발</a></li>
-                <li><a href="#">액세서리</a></li>
-              </ul>
-            </div>
-          </li>
-          <li><a href="#">디지털 가전 <span class="icon">></span></a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">P2U소개</a>
-    </div>
-    <div class="nav-item">
-      <a href="#">히트상품</a>
-    </div>
-    <div class="nav-item">
-      <a href="#">브랜드관</a>
-      <div class="dropdown">
-        <ul>
-          <li><a href="#">스킨케어 <span class="icon">></span></a></li>
-          <li><a href="#">메이크업 <span class="icon">></span></a></li>
-          <li><a href="#">헤어/바디 <span class="icon">></span></a></li>
-          <li><a href="#">남성전용 화장품 <span class="icon">></span></a></li>
-          <li><a href="#">뷰티기기/소품 <span class="icon">></span></a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="#">추천선물</a>
-    </div>
-    <div class="nav-item">
-      <a href="#">이벤트</a>
-    </div>
-    <div class="nav-item">
-      <a href="#">공모전</a>
-    </div>
-  </div>
+        <?php }?>
+    <?php }?>
+</div>
+
     <?php /*----- header 끝 -----*/?>
 
     <?php if (!defined('_INDEX_')) { // 메인이 아닐때 ?>

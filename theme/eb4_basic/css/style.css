@@ -1621,9 +1621,10 @@
     }
   
     .nav-item {
-      position: relative;
-      margin: 0 30px 0 0;
-    }
+        position: relative;
+        margin: 0 30px 0 0;
+        padding-bottom: 20px; /* Add this */
+      }
   
     .nav-item > a {
       text-decoration: none;
@@ -1644,24 +1645,33 @@
   
     /* Dropdown Menu */
     .dropdown {
-      display: none;
-      position: absolute;
-      top: 40px;
-      left: 0;
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 10;
-      padding: 10px;
-      min-width: 400px;
-    }
-  
-    .nav-item:hover .dropdown {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        display: none;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        background-color: #ffffff;
+        border: 1px solid rgba(0,0,0,0.7);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        padding: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .dropdown:hover {
+        opacity: 1;
+        visibility: visible;
+        display: flex;
+      }
+      
+.nav-item:hover .dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 1;
+    visibility: visible;
+  }
   
     .dropdown ul {
       list-style: none;
@@ -1674,7 +1684,7 @@
     }
   
     .dropdown ul li {
-      position: relative;
+      position: static;
       display: flex;
       align-items: center;
       width: 180px;
@@ -1712,8 +1722,8 @@
       border: 1px solid #ddd;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      padding: 10px;
-      min-width: 200px;
+      padding: 15px 0;
+      width: 100%;
     }
   
     .dropdown ul li:hover .nested-dropdown {
